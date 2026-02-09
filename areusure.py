@@ -21,13 +21,12 @@ def alert_message():
 def capture_webcam():
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
-        print("Cannot access webcam")
         return
     ret, frame = cap.read()
     if ret:
         cv2.imwrite("capture.jpg", frame)
     else:
-        print("Failed to capture image")
+        pass
     cap.release()
 import pyautogui
 def take_screenshot():
